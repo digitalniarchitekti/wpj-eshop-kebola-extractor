@@ -1,2 +1,2 @@
 
-print("Hello world from python")
+print("TEST jestli to bezi na kebole")
