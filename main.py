@@ -2,13 +2,57 @@ import json
 import warnings
 from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
+from API_KEY import token
 import datetime
 
-transport = AIOHTTPTransport(url="https://hannah.wpj.cloud/admin/graphql/", headers={'X-Access-Token': token})
+
+
+f = open('/data/config.json')
+data = json.load(f)
+
+transport = AIOHTTPTransport(url="https://www.hannah.cz/admin/graphql/", headers={'X-Access-Token': data['token']})
 client = Client(transport=transport, fetch_schema_from_transport=True)
 
 
-def get_product(id):
+def get_oder(id):
+
+    query = gql(
+        """{{
+            order(id: {}) {{
+    id
+    code
+    dateCreated
+    status
+    deliveryAddress {{
+      name
+      surname
+      street
+      city
+      zip
+      country {{
+        code
+        name
+      }}
+    }}
+    items {{
+      name
+      pieces
+      totalPrice {{
+        withVat
+        vat
+        currency {{
+          code
+        }}
+      }}
+    }}
+  }}
+}}""".format(id)
+    )
+    result = client.execute(query)
+    return result['order']
+
+
+def get_products(id):
     """
     Return products of given ID
     :param id: Id of products
@@ -80,8 +124,28 @@ def get_orders(num_of_days=7):
 if __name__ == '__main__':
     orders = get_orders()
 
-    product_lst = []
+    order_lst = []
     for i in orders:
-        product_lst.append(get_product(i['id']))
-    print(product_lst)
-    print(orders)
+        order_lst.append(get_oder(i['id']))
+
+    json_product = json.dumps(order_lst)
+    json_oders = json.dumps(orders)
+
+
+    output = {
+        "orders": orders,
+        "order": order_lst
+    }
+    x = json.dumps(output)
+
+    with open('/data/in/tables/orders.csv', 'w', newline='',encoding='utf-8') as csv_oders:
+        for i in orders:
+            txt = str(i)
+            csv_oders.write(txt+"\r\n")
+        csv_oders.close()
+    with open('/data/in/tables/orders_detail.csv', 'w', newline='',encoding='utf-8') as csv_oders:
+        for i in order_lst:
+            txt = str(i)
+            csv_oders.write(txt+"\r\n")
+        csv_oders.close()
+    print("done")
