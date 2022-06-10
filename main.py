@@ -2,7 +2,6 @@ import json
 import warnings
 from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
-from API_KEY import token
 import datetime
 
 
