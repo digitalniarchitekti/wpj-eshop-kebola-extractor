@@ -11,7 +11,7 @@ params = ci.configuration.parameters
 
 print(params)
 
-transport = AIOHTTPTransport(url="https://www.hannah.cz/admin/graphql/", headers={'X-Access-Token': params['token']})
+transport = AIOHTTPTransport(url="https://www.hannah.cz/admin/graphql/", headers={'X-Access-Token': params['#token']})
 client = Client(transport=transport, fetch_schema_from_transport=True)
 
 
