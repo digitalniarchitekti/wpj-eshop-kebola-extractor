@@ -142,11 +142,13 @@ if __name__ == '__main__':
     with open('/data/out/tables/orders.csv', 'w', newline='',encoding='utf-8') as csv_oders:
         for i in orders:
             txt = str(i)
+            txt.replace(",", "<>")
             csv_oders.write(txt+"\r\n")
         csv_oders.close()
     with open('/data/out/tables/orders_detail.csv', 'w', newline='',encoding='utf-8') as csv_oders:
         for i in order_lst:
             txt = str(i)
+            txt.replace(",", "<>")
             csv_oders.write(txt+"\r\n")
         csv_oders.close()
     print("done")
