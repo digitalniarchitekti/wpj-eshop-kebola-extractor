@@ -139,12 +139,12 @@ if __name__ == '__main__':
     }
     x = json.dumps(output)
 
-    with open('/data/in/tables/orders.csv', 'w', newline='',encoding='utf-8') as csv_oders:
+    with open('/data/out/tables/orders.csv', 'w', newline='',encoding='utf-8') as csv_oders:
         for i in orders:
             txt = str(i)
             csv_oders.write(txt+"\r\n")
         csv_oders.close()
-    with open('/data/in/tables/orders_detail.csv', 'w', newline='',encoding='utf-8') as csv_oders:
+    with open('/data/out/tables/orders_detail.csv', 'w', newline='',encoding='utf-8') as csv_oders:
         for i in order_lst:
             txt = str(i)
             csv_oders.write(txt+"\r\n")
