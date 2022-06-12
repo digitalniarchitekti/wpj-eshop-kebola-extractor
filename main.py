@@ -3,13 +3,15 @@ import warnings
 from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
 import datetime
+from keboola.component import CommonInterface
 
 
+ci = CommonInterface()
+params = ci.configuration.parameters
 
-f = open('/data/config.json')
-data = json.load(f)
+print(data)
 
-transport = AIOHTTPTransport(url="https://www.hannah.cz/admin/graphql/", headers={'X-Access-Token': data['token']})
+transport = AIOHTTPTransport(url="https://www.hannah.cz/admin/graphql/", headers={'X-Access-Token': params['token']})
 client = Client(transport=transport, fetch_schema_from_transport=True)
 
 
