@@ -4,12 +4,12 @@ from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
 import datetime
 from keboola.component import CommonInterface
-
+import csv
 
 ci = CommonInterface()
 params = ci.configuration.parameters
 
-print(params)
+
 
 transport = AIOHTTPTransport(url="https://www.hannah.cz/admin/graphql/", headers={'X-Access-Token': params['#token']})
 client = Client(transport=transport, fetch_schema_from_transport=True)
@@ -139,16 +139,20 @@ if __name__ == '__main__':
     }
     x = json.dumps(output)
 
+
+
     with open('/data/out/tables/orders.csv', 'w', newline='',encoding='utf-8') as csv_oders:
+        writer = csv.writer(csv_oders)
+        writer.writerow(("id", "json"))
         for i in orders:
-            txt = str(i)
-            txt.replace(",", "<>")
-            csv_oders.write(txt+"\r\n")
+            writer.writerow((i["id"], str(i)))
         csv_oders.close()
+
+
     with open('/data/out/tables/orders_detail.csv', 'w', newline='',encoding='utf-8') as csv_oders:
+        writer = csv.writer(csv_oders)
+        writer.writerow(("id", "json"))
         for i in order_lst:
-            txt = str(i)
-            txt.replace(",", "<>")
-            csv_oders.write(txt+"\r\n")
+            writer.writerow((i["id"], str(i)))
         csv_oders.close()
     print("done")
