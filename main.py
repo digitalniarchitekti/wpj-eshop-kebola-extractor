@@ -140,14 +140,6 @@ if __name__ == '__main__':
     x = json.dumps(output)
 
 
-"""
-    with open('/data/out/tables/orders.csv', 'w', newline='',encoding='utf-8') as csv_oders:
-        writer = csv.writer(csv_oders)
-        writer.writerow(("id", "json"))
-        for i in orders:
-            writer.writerow((i["id"], str(i)))
-        csv_oders.close()
-"""
 
     with open('/data/out/tables/orders_detail.csv', 'w', newline='',encoding='utf-8') as csv_oders:
         writer = csv.writer(csv_oders)
