@@ -147,7 +147,7 @@ if __name__ == '__main__':
 
 
 
-    with open("data/out/tables/orders_detail.csv", 'w', newline='',encoding='utf-8') as csv_oders:
+    with open("/data/out/tables/orders_detail.csv", 'w', newline='',encoding='utf-8') as csv_oders:
         writer = csv.writer(csv_oders)
         writer.writerow(("id", "code","dateCreated","status","deliveryAddress","items"))
         for i in order_lst:
