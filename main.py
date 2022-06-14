@@ -3,16 +3,22 @@ import warnings
 from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
 import datetime
-from keboola.component import CommonInterface
+#from keboola.component import CommonInterface
 import csv
 
-ci = CommonInterface()
-params = ci.configuration.parameters
+#ci = CommonInterface()
+#params = ci.configuration.parameters
 
-
+params={
+  "#token": "2d38b32b00d459e58dfa12c3a3d80b78",
+  "url": "https://www.hannah.cz/admin/graphql/",
+  "num_of_days": 7
+}
 
 transport = AIOHTTPTransport(url= params["url"], headers={'X-Access-Token': params['#token']})
 client = Client(transport=transport, fetch_schema_from_transport=True)
+
+
 
 
 def get_oder(id):
@@ -141,10 +147,10 @@ if __name__ == '__main__':
 
 
 
-    with open('/data/out/tables/orders_detail.csv', 'w', newline='',encoding='utf-8') as csv_oders:
+    with open("data/out/tables/orders_detail.csv", 'w', newline='',encoding='utf-8') as csv_oders:
         writer = csv.writer(csv_oders)
-        writer.writerow(("id", "code","dateCreated","TotralPrice","status","deliveryAddress","items"))
+        writer.writerow(("id", "code","dateCreated","status","deliveryAddress","items"))
         for i in order_lst:
-            writer.writerow((i["id"], i["code"],i['dateCreated'],i["TotralPrice"],i["status"],str(i['deliveryAddress']),str(i["items"])))
+            writer.writerow((i["id"], i["code"],i['dateCreated'],i["status"],str(i['deliveryAddress']),str(i["items"])))
         csv_oders.close()
     print("done")
