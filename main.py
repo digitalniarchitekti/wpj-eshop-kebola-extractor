@@ -145,6 +145,6 @@ if __name__ == '__main__':
         writer = csv.writer(csv_oders)
         writer.writerow(("id", "code","dateCreated","TotralPrice","status","deliveryAddress","items"))
         for i in order_lst:
-            writer.writerow((i["id"], i["code"],i['dateCreated'],i["status"],str(i['deliveryAddress']),str(i["items"])))
+            writer.writerow((i["id"], i["code"],i['dateCreated'],i["TotralPrice"],i["status"],str(i['deliveryAddress']),str(i["items"])))
         csv_oders.close()
     print("done")
