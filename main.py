@@ -11,7 +11,7 @@ params = ci.configuration.parameters
 
 
 
-transport = AIOHTTPTransport(url="https://www.hannah.cz/admin/graphql/", headers={'X-Access-Token': params['#token']})
+transport = AIOHTTPTransport(url= params["url"], headers={'X-Access-Token': params['#token']})
 client = Client(transport=transport, fetch_schema_from_transport=True)
 
 
@@ -123,7 +123,7 @@ def get_orders(num_of_days=7):
 
 
 if __name__ == '__main__':
-    orders = get_orders()
+    orders = get_orders(num_of_days=params["num_of_days"])
 
     order_lst = []
     for i in orders:
@@ -143,8 +143,8 @@ if __name__ == '__main__':
 
     with open('/data/out/tables/orders_detail.csv', 'w', newline='',encoding='utf-8') as csv_oders:
         writer = csv.writer(csv_oders)
-        writer.writerow(("id", "json"))
+        writer.writerow(("id", "code","dateCreated","TotralPrice","status","deliveryAddress","items"))
         for i in order_lst:
-            writer.writerow((i["id"], str(i)))
+            writer.writerow((i["id"], i["code"],i['dateCreated'],i["status"],str(i['deliveryAddress']),str(i["items"])))
         csv_oders.close()
     print("done")
