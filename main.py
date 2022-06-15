@@ -85,7 +85,7 @@ def get_products(id):
 
 def get_orders(num_of_days=7):
     """
-    This function load oders from x last x days TODO implement next day
+    This function load oders from x last x days
     :param num_of_days: Num of days in history to load
     :type num_of_days: int
     :return: List of history oders
