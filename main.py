@@ -143,7 +143,7 @@ if __name__ == '__main__':
 
     result_table = ci.create_out_table_definition('orderes_detail.csv', primary_key=['id'])
 
-    with open(result_table, 'w', newline='',encoding='utf-8') as csv_oders:
+    with open(result_table.full_path, 'w', newline='',encoding='utf-8') as csv_oders:
         writer = csv.writer(csv_oders)
         writer.writerow(("id", "code","dateCreated","status","deliveryAddress","items"))
         for i in order_lst:
