@@ -152,5 +152,5 @@ if __name__ == '__main__':
     result_table.table_metadata.add_table_description("Orders for given time period")
     result_table.table_metadata.add_column_data_types({"id":"INTEGER","code":"INTEGER","dateCreated":"DATE",
                                                        "status":"INTEGER","deliveryAddress":"STRING","items":"STRING"})
-    ci.write_tabledef_manifest(result_table)
+    ci.write_manifest(result_table)
     print("done")
