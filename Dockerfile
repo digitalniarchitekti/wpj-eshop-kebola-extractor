@@ -13,5 +13,5 @@ RUN echo "Python version:" \
  && echo "All installed Python packages:" \
  && pip freeze
 
-
+CMD ["ls"]
 CMD ["python", "-u", "/code/main.py"]

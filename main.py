@@ -3,17 +3,13 @@ import warnings
 from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
 import datetime
-#from keboola.component import CommonInterface
+from keboola.component import CommonInterface
 import csv
 
-#ci = CommonInterface()
-#params = ci.configuration.parameters
 
-params={
-  "#token": "2d38b32b00d459e58dfa12c3a3d80b78",
-  "url": "https://www.hannah.cz/admin/graphql/",
-  "num_of_days": 7
-}
+ci = CommonInterface()
+params = ci.configuration.parameters
+
 
 transport = AIOHTTPTransport(url= params["url"], headers={'X-Access-Token': params['#token']})
 client = Client(transport=transport, fetch_schema_from_transport=True)
@@ -100,7 +96,7 @@ def get_orders(num_of_days=7):
     query = gql(
         """
         {{
-        orders(limit: 10000, sort: {{ dateCreated: DESC }}, filter: {{ dateFrom:"{}"}}) {{
+        orders(limit: 10000000, sort: {{ dateCreated: DESC }}, filter: {{ dateFrom:"{}"}}) {{
         hasNextPage
         hasPreviousPage
         items {{
@@ -145,12 +141,16 @@ if __name__ == '__main__':
     }
     x = json.dumps(output)
 
+    result_table = ci.create_out_table_definition('orderes_detail.csv', primary_key=['id'])
 
-
-    with open("/data/out/tables/orders_detail.csv", 'w', newline='',encoding='utf-8') as csv_oders:
+    with open(result_table, 'w', newline='',encoding='utf-8') as csv_oders:
         writer = csv.writer(csv_oders)
         writer.writerow(("id", "code","dateCreated","status","deliveryAddress","items"))
         for i in order_lst:
             writer.writerow((i["id"], i["code"],i['dateCreated'],i["status"],str(i['deliveryAddress']),str(i["items"])))
         csv_oders.close()
+    result_table.table_metadata.add_table_description("Orders for given time period")
+    result_table.table_metadata.add_column_data_types({"id":"INTEGER","code":"INTEGER","dateCreated":"DATE",
+                                                       "status":"INTEGER","deliveryAddress":"STRING","items":"STRING"})
+    ci.write_tabledef_manifest(result_table)
     print("done")
