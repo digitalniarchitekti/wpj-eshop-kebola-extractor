@@ -141,7 +141,7 @@ if __name__ == '__main__':
     }
     x = json.dumps(output)
 
-    result_table = ci.create_out_table_definition('orderes_detail.csv', primary_key=['id'])
+    result_table = ci.create_out_table_definition('orderes_detail.csv', primary_key=['id'],incremental=True)
 
     with open(result_table.full_path, 'w', newline='',encoding='utf-8') as csv_oders:
         writer = csv.writer(csv_oders)
